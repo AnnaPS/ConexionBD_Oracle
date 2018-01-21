@@ -1,0 +1,87 @@
+---------------FUNCIONES--------------
+#####################################
+create or replace FUNCTION DEVOLVERDEPTNO 
+(
+  V_LOC IN VARCHAR2
+  
+) RETURN NUMBER AS
+ V_DEPTNO DEPT.DEPTNO%TYPE;
+BEGIN
+  SELECT DEPTNO INTO V_DEPTNO
+  FROM DEPT
+  WHERE loc=V_LOC;
+  RETURN(V_DEPTNO);
+END DEVOLVERDEPTNO;
+
+#####################################
+
+create or replace FUNCTION DEVOLVERLOCALIZACION
+(
+V_DEPTNO IN NUMBER
+)RETURN VARCHAR2 IS 
+LOCALIZACION VARCHAR2(30);
+BEGIN
+SELECT LOC INTO LOCALIZACION FROM DEPT WHERE DEPTNO=V_DEPTNO;
+RETURN LOCALIZACION;
+END DEVOLVERLOCALIZACION;
+
+---------------PROCEDIMIENTOS--------------
+#####################################
+create or replace PROCEDURE ACTUALIZARLOCALIZACION 
+(
+  P_DEPTNO IN NUMBER,  
+  P_LOCALIZACION IN VARCHAR2
+) AS 
+BEGIN
+  UPDATE DEPT SET LOC= P_LOCALIZACION WHERE DEPTNO=P_DEPTNO;
+END ACTUALIZARLOCALIZACION;
+#####################################
+create or replace PROCEDURE CALCULAR_PRECIO_VENTA AS
+    v_total NUMBER(10);
+--Declarar un cursor para recorrer la tabla
+    cursor c1 is  
+    select * from ventas;
+--Creamos un registro del tipo cursor para poder leer las columnas 
+    reg c1%rowtype;
+begin 
+    open c1;
+--Guardamos la primera fila del cursor en el registro
+    fetch c1 into reg;  
+--Mientras existan filas se van leyendo
+while c1%found loop
+    v_total:=(((reg.porcentaje_iva*reg.precio)/100)+reg.precio)*reg.ccantidad;
+    DBMS_OUTPUT.PUT_LINE('ID VENTA: '|| reg.id_venta||' PRECIO DE VENTA: '||v_total||'€' );
+    fetch c1 into reg;
+end loop;
+close c1;
+end CALCULAR_PRECIO_VENTA;
+#####################################
+
+create or replace PROCEDURE DEVUELVELOC 
+(
+  V_DEPTNO IN NUMBER,
+  V_LOCALIZACION IN OUT VARCHAR2
+) AS 
+
+BEGIN
+ SELECT LOC INTO V_LOCALIZACION FROM DEPT WHERE DEPTNO=V_DEPTNO;
+
+END DEVUELVELOC;
+#####################################
+
+create or replace PROCEDURE UPDATEYVISLOC
+(
+V_NUMDE IN NUMBER,
+V_LOC IN OUT VARCHAR2
+)AS
+BEGIN
+
+
+--
+--DBMS_OUTPUT.put_line('LOCALIZACION ACTUAL CON EL NUMERO DE DEPARTAMENTO '||v_numde||': '||v_loc);
+UPDATE DEPT SET LOC=V_LOC WHERE DEPTNO=V_NUMDE;
+SELECT LOC INTO V_LOC FROM DEPT WHERE DEPTNO=V_NUMDE;
+
+
+END UPDATEYVISLOC;
+#####################################
