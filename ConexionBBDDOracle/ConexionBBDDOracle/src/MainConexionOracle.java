@@ -9,19 +9,19 @@ public class MainConexionOracle {
 		Connection con;
 		
 		con=oracle.conectar();
-//		oracle.consulta();
-//		System.out.println("\n\tConsulta metadata");
-//		oracle.consultaMetadata();
-//		
-//		oracle.actualizar();
-//		System.out.println("\n\tConsulta Preparada");
-//		oracle.consPreparada();
-	//	System.out.println("Actualizacion preparada");
+		oracle.consulta();
+		System.out.println("\n\tConsulta metadata");
+		oracle.consultaMetadata();
 		
-		//oracle.actualizacionPreparada();
-		//oracle.pedirTipoDeSQLPorTeclado(args[0]);
-		//oracle.utilizarProcedimientoActLoc();
-		//oracle.utilizarFuncionPLSQL();
+		oracle.actualizar();
+		System.out.println("\n\tConsulta Preparada");
+		oracle.consPreparada();
+		System.out.println("Actualizacion preparada");
+		
+		oracle.actualizacionPreparada();
+		oracle.pedirTipoDeSQLPorTeclado(args[0]);
+		oracle.utilizarProcedimientoActLoc();
+		oracle.utilizarFuncionPLSQL();
 		oracle.utilizarFuncionPLSQL2();
 		try {
 			con.close();
